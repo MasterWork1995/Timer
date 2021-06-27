@@ -1,2 +1,1 @@
-import './timer2.js';
-// import './timer/js';
+import './timer.js';

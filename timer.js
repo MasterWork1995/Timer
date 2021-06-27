@@ -1,14 +1,9 @@
-const refs = {
-    days: document.querySelector("[data-value=days]"),
-    hours: document.querySelector("[data-value=hours]"),
-    mins: document.querySelector("[data-value=mins]"),
-    seconds: document.querySelector("[data-value=secs]"),
-};
-
 class CountdownTimer {
     constructor({ onTick }) {
+        this.selector = '#timer-1';
         this.targetDate = new Date('Jan 01, 2022');
         this.onTick = onTick;
+        this.markup = markup;
     }
 
     start() {
@@ -33,17 +28,50 @@ class CountdownTimer {
     pad(value) {
         return String(value).padStart(2, '0');
     }
+
+    addMarkup() {
+        document.querySelector(this.selector).insertAdjacentHTML("afterbegin", this.markup());
+    }
 }
 
 const timer = new CountdownTimer({
-    onTick: updateClockface
+    onTick: updateClockface,
+    markup: markup
 });
-
+timer.addMarkup();
 timer.start(updateClockface);
 
 function updateClockface({ days, hours, mins, seconds }) {
+    const refs = {
+    days: document.querySelector("[data-value=days]"),
+    hours: document.querySelector("[data-value=hours]"),
+    mins: document.querySelector("[data-value=mins]"),
+    seconds: document.querySelector("[data-value=secs]"),
+};
     refs.days.textContent = days;
     refs.hours.textContent = hours;
     refs.mins.textContent = mins;
     refs.seconds.textContent = seconds;
-}
+};
+
+function markup() {
+    return  `<div class="field">
+                <span class="value decoration" data-value="days">0</span>
+                <span class="label decoration">Days</span>
+            </div>
+    
+            <div class="field">
+                <span class="value decoration" data-value="hours">0</span>
+                <span class="label decoration">Hours</span>
+            </div>
+    
+            <div class="field">
+                <span class="value decoration" data-value="mins">0</span>
+                <span class="label decoration">Minutes</span>
+            </div>
+    
+            <div class="field">
+                <span class="value decoration" data-value="secs">0</span>
+                <span class="label decoration">Seconds</span>
+            </div>`
+};
